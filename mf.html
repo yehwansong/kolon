@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" href="common.css">
+  <style type="text/css">
+    body, html{
+      width: 100vw;
+      height: 100vh;
+      position:absolute;
+      overflow:hidden;
+    }
+    body{
+      background-image: url('img/oceanser.png');
+      background-size: cover;
+      background-position: -3vw;
+  }
+  </style>
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="firebase-load.js"></script>
+  <script type="text/javascript">
+  // sun
+  // input : d1, d2, a, b1, b2, c1, c2
+  // output : none
+
+
+  // input(2) -- d1,d2
+  var canvas, ctx;
+  var mouseX, mouseY, mouseDown = 0;
+  var touchX, touchY;
+  var gTouching = false;
+  var w = window.innerWidth
+  var h = window.innerHeight
+  var f1, f2
+  function onFirebaseReady() {
+
+    $('body').on('touchstart', function(e){
+      setFirebaseValues({
+        f1: e.originalEvent.touches[0].pageX,
+        f2: e.originalEvent.touches[0].pageY
+      });
+        gTouching = true;
+    });
+
+    $('body').on('touchmove', function(e){
+      setFirebaseValues({
+        f1: e.originalEvent.touches[0].pageX,
+        f2: e.originalEvent.touches[0].pageY
+      });
+    });
+
+    $('body').on('touchend', function(e){
+        gTouching = false;
+      setFirebaseValues({
+        f1: null,
+        f2: null
+      });
+    });
+    console.log(f1)
+
+    // $('.bg').css({ 'width': w })
+    // $('.bg').css({ 'height': unit * w * 3 })
+    // $('.bg').css({ 'top': -1 * unit * w })
+
+    console.log('onFirebaseReady handler');
+
+    canvas = document.getElementById('sketchpad');
+
+    if (canvas.getContext) {
+      ctx = canvas.getContext('2d');
+    }
+  }  
+
+  // input(1) -- b1,b2,c1,c2
+  function firebaseValueChangeHandler(values) {
+    console.log('firebaseValueChangeHandler')
+
+    if (values.a) {
+      $('body').css({ 'opacity': 0 })
+    } else {
+      $('body').css({ 'opacity': 1 })
+    }
+    if (values.b) {
+      console.log(values.b1 + 'px')
+      $('body').css({'background-position': values.b1 + 'px'})
+    }
+
+    var w = window.innerWidth
+        // $('.bg').css({ 'margin-left': -2*w + values.b1 % (w*2) + 'px' })
+  }
+
+
+  // FIXME sketchpad_touchStart not called in this script
+
+  /*
+  setInterval(function() {
+    function sketchpad_touchStart() {
+      getTouchPos();
+      drawDot(ctx, d1, d2, 12);
+      event.preventDefault();
+    }
+    function sketchpad_touchMove(e) {
+      getTouchPos(e);
+
+      drawDot(ctx, d1, d2, 12);
+
+      event.preventDefault();
+    }
+  }, 100);
+  */
+
+  </script>
+  <style>
+    .bg{
+        width: 400vw;
+        height: 100vh;
+        /*left: -100vw;*/
+        position: absolute;
+        background-image: url('img/sky.jpg');
+        background-size: auto 100vh;
+    }
+</style>
+</head>
+
+<body>
+  <!-- <div class="bg"></div> -->
+</body>

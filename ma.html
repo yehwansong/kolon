@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" href="common.css">
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="firebase-load.js"></script>
+  <script type="text/javascript">
+  // sun
+  // output : a
+  // input : none
+  setFirebaseValues({ a: false });
+
+  function onFirebaseReady() {
+    console.log('onFirebaseReady handler');
+
+    $('.sun').on('touchstart', function(e) {
+      setFirebaseValues({ a1: true });
+    })
+    $('.sun').on('touchend', function(e) {
+      setFirebaseValues({ a1: false });
+    })
+    $('.sun_orange').on('touchstart', function(e) {
+      setFirebaseValues({ a2: true });
+    })
+    $('.sun_orange').on('touchend', function(e) {
+      setFirebaseValues({ a2: false });
+    })
+  }
+  </script>
+  <style>
+  .sun {
+    position: absolute;
+    width: 50vw;
+    height: 50vw;
+    background: red;
+    z-index: 1000;
+    left: 25vw;
+    top: 25vw;
+    border-radius: 50%;
+  }
+  .sun_orange {
+    position: absolute;
+    width: 100vw;
+    height: 100vw;
+    z-index: 10;
+    background: black;
+    border-radius: 50%;
+  }
+  body{
+    background-image: url('img/sun2.png');
+    background-size: cover;
+    background-position: top;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="sun"></div>
+  <div class="sun_orange"></div>
+</body>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<head>
+  <link rel="stylesheet" href="common.css">
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="firebase-load.js"></script>
+  <script type="text/javascript">
+  // sun
+  // output : none
+  // input : e, a
+
+  var firebaseValues = {}
+  var valuecounter = 0;
+  var run_aniing = false;
+var timeout;
+
+  function onFirebaseReady() {
+    console.log('onFirebaseReady handler');
+
+    var counter = 0
+    setInterval(function() {
+      if (firebaseValues.e) {
+        counter++
+        console.log(counter)
+        $('.video').hide()
+        $('.video_' + counter % 5).show()
+      }
+    }, 500);
+  }
+
+  function firebaseValueChangeHandler(values) {
+    console.log('firebaseValueChangeHandler')
+
+    // input
+    if (values.a) {
+      // FIXME there is no #img in this page
+      $('body').css({ 'opacity': 0 })
+    } else {
+      $('body').css({ 'opacity': 1 })
+    }
+
+    if (values.b) {
+      if(!run_aniing){
+        run_aniing = true
+        run_ani()
+      }
+      clearTimeout(timeout);
+      timeout = setTimeout(function(){
+        run_aniing = false
+      }, 100);
+    }
+    firebaseValues.e = values.e
+  }
+  function run_ani(){
+      valuecounter++
+      $('.video').css({ 'transform': 'translateX('+ -1*valuecounter%(window.innerHeight/2*5) + 'px)' })
+    if(run_aniing){
+      setTimeout(function(){
+        run_ani()
+      },3)
+    }
+  }
+  </script>
+  <style>
+    body{
+    background: black;}
+  .sun {
+    position: absolute;
+    width: 100vw;
+    height: 100vw;
+    background: red;
+    border-radius: 50%;
+  }
+  video{
+    transition: opacity 0.5s;
+    position: relative;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    float: left;
+    display: inline-block;
+  }
+  .video_wrapper{
+    width: 50vh;
+    display: flex;
+    height: 100vh;
+    left: calc(50vw - 25vh);
+    overflow:hidden;
+    position: absolute;
+  }
+  </style>
+</head>
+
+<body>
+<div class="video_wrapper">
+  <!-- FIXME set video src -->
+  <video autoplay loop muted  class="video video_0">
+    <source src="videos/vid5.mp4" type="video/mp4" />
+  </video>
+  <video autoplay loop muted  class="video video_1">
+    <source src="videos/vid2.mp4" type="video/mp4" />
+  </video>
+  <video autoplay loop muted  class="video video_2">
+    <source src="videos/vid3.mp4" type="video/mp4" />
+  </video>
+  <video autoplay loop muted  class="video video_3">
+    <source src="videos/vid4.mp4" type="video/mp4" />
+  </video>
+  <video autoplay loop muted  class="video video_4">
+    <source src="videos/vid1.mp4" type="video/mp4" />
+  </video>
+</div>
+</body>
