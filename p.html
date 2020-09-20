@@ -29,28 +29,41 @@ var timeout;
       }
     }, 500);
   }
+  var changed = false
+  var vid_counter = 0
+  var timeout
+  function change_ch(){
+    if(!changed){
+      vid_counter++
+      $('video').css({'opacity':'0'})
+      $('video').eq((vid_counter%$('video').length)).css({'opacity':'1'})
+      console.log($('video').eq((vid_counter%$('video').length)))
+      console.log((vid_counter%$('video').length))
+    }
+    changed = true
+    timeout = setTimeout(function(){
+      changed = false
+      change_ch()
+    },1000)
+  }
 
   function firebaseValueChangeHandler(values) {
     console.log('firebaseValueChangeHandler')
 
     // input
     if (values.a) {
-      // FIXME there is no #img in this page
-      $('body').css({ 'opacity': 0 })
+      change_ch()
     } else {
-      $('body').css({ 'opacity': 1 })
+      clearTimeout(timeout)
+      changed = false
+    }
+    if (values.d) {
+      change_ch()
+    } else {
+      clearTimeout(timeout)
+      changed = false
     }
 
-    if (values.b) {
-      if(!run_aniing){
-        run_aniing = true
-        run_ani()
-      }
-      clearTimeout(timeout);
-      timeout = setTimeout(function(){
-        run_aniing = false
-      }, 100);
-    }
     firebaseValues.e = values.e
   }
   function run_ani(){
@@ -75,7 +88,7 @@ var timeout;
   }
   video{
     transition: opacity 0.5s;
-    position: relative;
+    position: absolute;
     left: 0;
     top: 0;
     height: 100vh;
@@ -84,7 +97,6 @@ var timeout;
   }
   .video_wrapper{
     width: 50vh;
-    display: flex;
     height: 100vh;
     left: calc(50vw - 25vh);
     overflow:hidden;
@@ -97,19 +109,19 @@ var timeout;
 <div class="video_wrapper">
   <!-- FIXME set video src -->
   <video autoplay loop muted  class="video video_0">
-    <source src="videos/vid5.mp4" type="video/mp4" />
+    <source src="vid/vid5.mp4" type="video/mp4" />
   </video>
   <video autoplay loop muted  class="video video_1">
-    <source src="videos/vid2.mp4" type="video/mp4" />
+    <source src="vid/vid2.mp4" type="video/mp4" />
   </video>
   <video autoplay loop muted  class="video video_2">
-    <source src="videos/vid3.mp4" type="video/mp4" />
+    <source src="vid/vid3.mp4" type="video/mp4" />
   </video>
   <video autoplay loop muted  class="video video_3">
-    <source src="videos/vid4.mp4" type="video/mp4" />
+    <source src="vid/vid4.mp4" type="video/mp4" />
   </video>
   <video autoplay loop muted  class="video video_4">
-    <source src="videos/vid1.mp4" type="video/mp4" />
+    <source src="vid/vid1.mp4" type="video/mp4" />
   </video>
 </div>
 </body>

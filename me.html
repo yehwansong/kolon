@@ -25,74 +25,43 @@
     var bound = 30
     var min = 0
     var max = 50
-    if (navigator && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(function(stream) {
-          console.log('111111')
-          var AudioContext = window.AudioContext // Default
-            ||
-            window.webkitAudioContext // Safari and old versions of Chrome
-            ||
-            false;
-
-          if (AudioContext) {
-            var ctx = new AudioContext;
-            // ...
-          } else {
-            alert("Sorry, but the Web Audio API is not supported by your browser. Please, consider upgrading to the latest version or downloading Google Chrome or Mozilla Firefox");
-          }
-          audioContext = new AudioContext();
-          analyser = audioContext.createAnalyser();
-          microphone = audioContext.createMediaStreamSource(stream);
-          javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
-
-          analyser.smoothingTimeConstant = 0.8;
-          analyser.fftSize = 1024;
-
-          microphone.connect(analyser);
-          analyser.connect(javascriptNode);
-          javascriptNode.connect(audioContext.destination);
-          javascriptNode.onaudioprocess = function() {
-            var array = new Uint8Array(analyser.frequencyBinCount);
-            analyser.getByteFrequencyData(array);
-            var values = 0;
-
-            var length = array.length;
-            for (var i = 0; i < length; i++) {
-              values += (array[i]);
-            }
-
-            average = values / length;
-            // average = 80
-
-
-
-            setFirebaseValues({
-              e: Math.round(average) > 30
-            })
-
-            // t or f
-            // only works on https
-          }
-        })
-        .catch(function(err) {});
-    }
   }
 var w = window.innerWidth
 var h = window.innerHeight
+var f1timeout
   function firebaseValueChangeHandler(values) {
     console.log('firebaseValueChangeHandler')
     console.log(values.f1)
-        $('#finger').css({
-            'left': values.f1 + 'px',
-            'top': 0 + 'px',
-            'transform': 'scale('+((((values.f2-0.5)/h))) +')' 
-        }); 
+
+    if(values.f1){
+            $('#finger').css({
+                  'transition':'0s',
+                'left': values.f1 + 'px',
+                'top': 0 + 'px',
+                'transform': 'scale('+((((values.f2-0.5)/h))) +')' 
+            }); 
+            clearTimeout(f1timeout)
+            f1timeout=setTimeout(function(){
+              $('#finger').css({
+                  'transition':'1s',
+                  'top': '-500px' 
+              }) 
+            },500)
+    }
 
     // input
+    // input
     if (values.a) {
-      $('.elem').css({ 'opacity': 0 })
+      // FIXME .elem does not exist
+      $('body').addClass('black')
     } else {
-      $('.elem').css({ 'opacity': 1 })
+      $('body').removeClass('black')
+    }
+    if (values.d) {
+      // FIXME .elem does not exist
+      $('body').addClass('orange')
+    } else {
+      $('body').removeClass('orange')
     }
   }
 
@@ -116,7 +85,7 @@ if (navigator.mediaDevices.getUserMedia) {
     });
 }
 
-    var STARTING_FISH_COUNT = 8;
+    var STARTING_FISH_COUNT = 38;
 
   // globals
   var $count, $pond, pondWidth, pondHeight;
@@ -207,7 +176,6 @@ top: 0px;
     }
     .bg{
       width: 100vw;
-      opacity: 0.8;
 /*mix-blend-mode: hard-light;*/
 z-index: 10000000;
 position: fixed;
@@ -332,10 +300,17 @@ transform-origin: left top;
   height: 100vh;
   position: fixed;
   left: 0;
-  top: 0
+  top: 0;
+  background: linear-gradient(blue, rgba(72, 97, 255, 0) 48.32%);
+  z-index: 10000000;
+  transition: 3s
 }
-
-
+.orange .bg_color{
+  background: linear-gradient(rgb(255, 24, 0), rgba(255, 203, 0, 0.23));
+}
+.black .bg_color{
+  background: black;
+}
   </style>
 </head>
 

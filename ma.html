@@ -16,16 +16,10 @@
     console.log('onFirebaseReady handler');
 
     $('.sun').on('touchstart', function(e) {
-      setFirebaseValues({ a1: true });
+      setFirebaseValues({ a: true });
     })
     $('.sun').on('touchend', function(e) {
-      setFirebaseValues({ a1: false });
-    })
-    $('.sun_orange').on('touchstart', function(e) {
-      setFirebaseValues({ a2: true });
-    })
-    $('.sun_orange').on('touchend', function(e) {
-      setFirebaseValues({ a2: false });
+      setFirebaseValues({ a: false });
     })
   }
   </script>
@@ -37,8 +31,9 @@
     background: red;
     z-index: 1000;
     left: 25vw;
-    top: 25vw;
+    top: 55vw;
     border-radius: 50%;
+    opacity: 0
   }
   .sun_orange {
     position: absolute;
@@ -61,5 +56,4 @@
 
 <body>
   <div class="sun"></div>
-  <div class="sun_orange"></div>
 </body>

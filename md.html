@@ -97,6 +97,14 @@ var counter = 0
     
     recreateInterval()
     console.log('onFirebaseReady handler');
+    $('.orange_sun').on('touchstart', function(e) {
+      setFirebaseValues({ d: true });
+      $('.orange_sun').css({'opacity':'0'})
+    })
+    $('.orange_sun').on('touchend', function(e) {
+      setFirebaseValues({ d: false });
+      $('.orange_sun').css({'opacity':'1'})
+    })
 
     canvas = document.getElementById('sketchpad');
 
@@ -112,14 +120,13 @@ var counter = 0
     console.log('firebaseValueChangeHandler')
 
     // input
-    if (values.a1) {
+    if (values.a) {
       // FIXME .elem does not exist
       $('body').addClass('black')
     } else {
       $('body').removeClass('black')
     }
-    console.log(values.a2)
-    if (values.a2) {
+    if (values.d) {
       // FIXME .elem does not exist
       $('body').addClass('orange')
     } else {
@@ -203,13 +210,15 @@ body{
   /*background-image: */
 }
 .orange_sun{
-  width: 10vw;
-  height: 10vw;
-  position: fixed;
-  left: 45vw;
-  top: 15vw;
-  background: red;
-  z-index: 10000;
+width: 20vw;
+height: 20vw;
+position: fixed;
+left: 45vw;
+top: 15vw;
+background: radial-gradient(rgb(255, 193, 69) 8.4%, rgb(255, 114, 0) 25.63%, rgba(255, 108, 0, 0) 73.11%);
+z-index: 10000000;
+border-radius: 50%; 
+transition: opacity 1s
 }
 video{
     left: 0;
@@ -228,7 +237,7 @@ video{
     background-position: left;
   }
   .color_bg{
-z-index: 100000;
+z-index: 100000000;
 background: linear-gradient(rgb(255, 24, 0), rgba(255, 203, 0, 0.23));
 transition:0.2s;
   }
@@ -249,10 +258,25 @@ transition:0.2s;
     z-index: 1000000000;
     position: fixed;
     }
+  .black_bg{
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000000000000000000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transition: opacity 3s;
+    background:black;
+  }
+  .black .black_bg{
+    opacity: 1
+  }
 </style>
 </head>
 
 <body>
+  <div class="black_bg"></div>
   <div class="hide orange_sun"></div>
   <div class="hide color_bg"></div>
   <div class="hide bg"></div>
