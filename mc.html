@@ -184,7 +184,8 @@ if (navigator.mediaDevices.getUserMedia) {
     position: absolute;
     left: 0;
     top: 0;
-    transform: scale(12);
+    transform: scale(3);
+    transform-origin: center 65vh
   }
   .bg,.bg_color,.bg_color_orange,
   .bg_orange{
@@ -228,11 +229,11 @@ z-index: 100;
   }
   .bg_color{
     top: 0;
-    background: linear-gradient(187deg, rgb(14, 0, 255), rgba(0, 3, 255, 0) 44.54%);
+    background: linear-gradient(187deg, rgb(14, 0, 255), rgba(0, 3, 255, 0) 30%);
     transition: opacity 3s;
   }
   .bg_color_orange{
-background: linear-gradient(rgb(255, 24, 0), rgba(255, 203, 0, 0) 66.81%);
+background: linear-gradient(rgb(255, 24, 0), rgba(255, 203, 0, 0) 30%);
     transition: opacity 3s;
 opacity: 0}
   .orange .bg_color_orange{
@@ -246,6 +247,7 @@ opacity: 0}
     position: absolute;
     position: absolute;
     height: 100vh;
+    top: 10vh
   }
   .img{
     visibility: hidden;
