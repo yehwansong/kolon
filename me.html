@@ -29,26 +29,49 @@
 var w = window.innerWidth
 var h = window.innerHeight
 var f1timeout
+var f1counter = 0
+var bubblecounter = 0
   function firebaseValueChangeHandler(values) {
     console.log('firebaseValueChangeHandler')
     console.log(values.f1)
 
     if(values.f1){
+            f1counter ++ 
+              console.log(f1counter)
+            if(f1counter%10 == 0){
+              addbubble(values.f1,values.f2)
+            }
             $('#finger').css({
-                  'transition':'0s',
+                  'margin-top': '0px',
                 'left': values.f1 + 'px',
                 'top': 0 + 'px',
-                'transform': 'scale('+((((values.f2-0.5)/h))) +')' 
+                'transform': 'scale('+((values.f2-0.2)/h) +')' 
             }); 
             clearTimeout(f1timeout)
             f1timeout=setTimeout(function(){
               $('#finger').css({
-                  'transition':'1s',
-                  'top': '-500px' 
+                  'transition':'margin-top 1s',
+                  'margin-top': '-500px' 
               }) 
             },500)
     }
-
+    function addbubble(a,b){
+      bubblecounter++
+      $('body').append('<div class="bubble bubble_'+bubblecounter+'"></div>')
+            $('.bubble_'+bubblecounter).css({
+                'left': a+Math.floor(Math.random()*100) + 'px',
+                'top': (0.5*w*((b-0.2)/h)-200) + 'px'
+            }); 
+              setTimeout(function(){
+                $('.bubble_'+bubblecounter).css({
+                  'margin-top':-100+'vh',
+                  'transform':'scale(1)'
+              },10); 
+            })
+            if(bubblecounter>20){
+              $('.bubble_'+(bubblecounter-20)).remove()
+            }
+    }
     // input
     // input
     if (values.a) {
@@ -174,6 +197,21 @@ if (navigator.mediaDevices.getUserMedia) {
 z-index: 1000000000;
 top: 0px;
     }
+
+.bubble{
+  position: fixed;
+  bottom: 0;
+  width: 10vw;
+  height: 10vw;
+  transition: 15s cubic-bezier(0,.7,.67,1);
+  margin-top: 0;
+z-index: 1000000000;
+background-image: url('img/bubble.png');
+mix-blend-mode: color-burn;
+background-size: contain;
+background-repeat: no-repeat;
+transform: scale(0);
+}
     .bg{
       width: 100vw;
 /*mix-blend-mode: hard-light;*/
@@ -264,22 +302,6 @@ transform-origin: left top;
 
 .fish-spin .fish-body { transform: rotate(720deg); }
 
-.bubble {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border: solid 1px #fff;
-  border-radius: 50%;
-  margin: -15px 0 0 20px;
-  transform-origin: center top;
-  animation: bubble 4s linear forwards;
-}
-@keyframes bubble {
-  100% {
-    transform: translateY(-200px) rotate(-1080deg);
-    opacity: 0;
-  }
-}
 
 .bubble-flip {
   margin-left: -28px;
@@ -311,6 +333,8 @@ transform-origin: left top;
 .black .bg_color{
   background: black;
 }
+
+
   </style>
 </head>
 
