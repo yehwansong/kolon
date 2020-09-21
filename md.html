@@ -278,14 +278,21 @@ transition:0.2s;
   .bg{
     background-image: url('img/1-1.png');
   }
-  .bg2{
+  .bg2,.bg2-blue{
     position: fixed;
     left: 0;
     width: 100vw;
     height: auto;
     top: -15vh;
-    z-index: 1000000
+    z-index: 1000000;
+    transition: 3s
 
+  }
+   .bg2-blue{
+    opacity: 0
+   }
+  .orange .bg2-blue{
+    opacity: 1
   }
 </style>
 </head>
@@ -296,6 +303,7 @@ transition:0.2s;
   <!-- <div class="hide color_bg"></div> -->
   <!-- <div class="hide bg"></div> -->
   <img src="img/1-2.png" class="bg2">
+  <img src="img/1-2-blue.png" class="bg2-blue">
   <div class="bg"></div>
   <video autoplay="true" class="hide" id="videoElement">
   </video>
