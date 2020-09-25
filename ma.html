@@ -14,11 +14,12 @@
   // sun
   // output : a
   // input : none
-  setFirebaseValues({ a: false });
-
   function onFirebaseReady() {
     console.log('onFirebaseReady handler');
 
+    // once firebase is ready, set initial value
+    setFirebaseValues({ a: false });
+    
     $('.sun').on('touchstart', function(e) {
       setFirebaseValues({ a: true });
       $('.bg').css({'opacity':'0'})
