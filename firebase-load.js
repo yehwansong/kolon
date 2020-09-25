@@ -17,6 +17,6 @@ window.setFirebaseValues = function() {
 
 document.addEventListener("DOMContentLoaded", function() {
   var script = document.createElement('script');
-  script.src = 'https://gregsadetsky.github.io/kolon-firebase/dist/firebase.js?r=' + Math.random();
+  script.src = 'https://gregsadetsky.github.io/kolon-firebase/firebase.js?r=' + Math.random();
   document.head.appendChild(script);
 });
