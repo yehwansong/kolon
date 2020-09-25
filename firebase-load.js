@@ -11,8 +11,8 @@ console.log('firebase-load.js');
 window.firebaseSetValuesQueue = [];
 // temporary queue, while firebase is still loading.
 // will be emptied / sent as soon as firebase is loaded.
-window.setFirebaseValues = function() {
-  firebaseSetValuesQueue.push(arguments);
+window.setFirebaseValues = function(values) {
+  firebaseSetValuesQueue.push(values);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
